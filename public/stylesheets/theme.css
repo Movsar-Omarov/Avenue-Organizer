@@ -4,3 +4,34 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+/* basic design */
+
+body {
+    min-height: 100vh;
+}
+
+main, header {
+    text-align: center;
+}
+
+/* header */
+
+header {
+    margin-bottom: 2em;
+    line-height: 1.7;
+}
+
+p {
+    line-height: 1.5;
+}
+
+/* form */
+
+h2, ol, #comment-div {
+    margin-bottom: 1em;
+}
+
+label {
+    margin-right: 10px;
+}
