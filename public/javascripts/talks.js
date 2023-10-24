@@ -25,7 +25,7 @@ form.addEventListener("submit", async e => {
 
     if (!titleInput.value || !nameInput.value || !summaryInput.value) return
     
-    await fetch("http://localhost:8000/talks/themes", {
+    fetch("http://localhost:8000/talks/themes", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -52,7 +52,7 @@ function formatTitles(data) {
         const li = document.createElement("li"),
         a = document.createElement("a")
 
-        a.href = `http://localhost:8000/talks/${encodeURIComponent(titles[i])}`
+        a.href = `http://localhost:8000/talks/title/${encodeURIComponent(titles[i])}`
         a.textContent = titles[i]
 
         li.appendChild(a)

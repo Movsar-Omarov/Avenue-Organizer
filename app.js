@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const webSocket = require("ws")
 
-const talksRouter = require('./routes/talks-router');
+const talksRouter = require('./routes/Talks/talks-router');
 
 const app = express();
 
