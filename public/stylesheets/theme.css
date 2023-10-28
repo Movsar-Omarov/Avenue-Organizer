@@ -32,6 +32,10 @@ h2, ol, #comment-div {
     margin-bottom: 1em;
 }
 
+li {
+    margin-bottom: 10px;
+}
+
 label {
     margin-right: 10px;
 }
