@@ -20,6 +20,8 @@ titleInput = document.querySelector("#title-input"),
 nameInput = document.querySelector("#name-input"),
 summaryInput = document.querySelector("#summary-input")
 
+// Execution
+
 form.addEventListener("submit", async e => {
     e.preventDefault()
 

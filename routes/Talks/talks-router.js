@@ -11,7 +11,9 @@ const titleRouter = require("./var_title/title-router")
 
 const router = express.Router()
 
-const jsonPath = "./talks.json"
+// General Variables, Constantes etc.
+
+const jsonPath = "routes/Talks/talks.json"
 
 // Express
 
@@ -32,22 +34,20 @@ router.post("/themes", async (req, res) => {
   const theme = new Theme(title, name, summary)
   
   // check if title sent by client exists
-
-  if (!Object.values(titles()).includes(title)) {
-    // read json file
-
-    const themes = talks()
-
-    themes[name] = theme
-
+  
+  if (!Object.values(await titles()).includes(title)) {
+    const jsonData = (await talks()),
+    themes = jsonData["talks"]
     // update json file
+    
+    themes.push(theme)
 
-    await writeFile(jsonPath, JSON.stringify(themes))
+    await writeFile(jsonPath, JSON.stringify(jsonData))
+
+    res.cookie("name", name)
+    res.sendStatus(200)
   }
   else res.sendStatus(403)
-  
-  res.cookie("name", theme.creator)
-  res.sendStatus(200)
 })
 
 // WebSocket
@@ -64,31 +64,35 @@ wssTalks.on("connection", ws => {
 
 // Functions 
 
-function sendJSON(ws) {
-  console.log(titles())
-  ws.send(JSON.stringify(titles()))
+async function sendJSON(ws) {
+  ws.send(JSON.stringify(await titles()))
 }
 
 const talks = async () => {
   const data = await readFile(jsonPath, {
     encoding: "utf-8"
   })
-  console.log(data)
-  return JSON.parse(data)["talks"]
+  
+  return JSON.parse(data)
 }
 
-const titles = () => {
+const titles = async () => {
   // create object like dom
   
   const titles = {
     length: 0
   }
+  let themes = await talks()
   
-  for (let i = 0; i < talks().length; i++) {
-    titles[i] = talks()[i].title
+  themes = themes["talks"]
+
+  // paste all of the titles into this object
+  
+  for (let i = 0; i < themes.length; i++) {
+    titles[i] = themes[i].title
     titles.length++
   }
-
+  
   return titles
 }
 

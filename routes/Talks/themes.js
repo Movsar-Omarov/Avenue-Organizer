@@ -5,10 +5,6 @@ class Theme {
         this.summary = summary
         this.comments = []
     }
-
-    addComment(comment) {
-        this.comments.push(comment)
-    }
 }
 
 class Comment {
