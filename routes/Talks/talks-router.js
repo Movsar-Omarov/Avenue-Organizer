@@ -52,11 +52,11 @@ router.post("/themes", async (req, res) => {
 
 // WebSocket
 
-const wssTalks = new webSocket.Server({
+const wss = new webSocket.Server({
   port: 8080
 })
 
-wssTalks.on("connection", ws => {
+wss.on("connection", ws => {
   sendJSON(ws)
 
   ws.on("message", () => sendJSON(ws))
