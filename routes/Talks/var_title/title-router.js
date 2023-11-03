@@ -52,12 +52,11 @@ router.all("/:title", (req, res) => {
 
 router.post("/:title/comments", async (req, res) => {
     const theme = talk(req.params["title"]),
-    commentInput = req.body["comment"],
-    name = req.cookies["name"],
+    { comment, name } = req.body,
 
-    comment = new Comment(name, commentInput)
+    commentObj = new Comment(name, comment)
     
-    theme.comments.push(comment)
+    theme.comments.push(commentObj)
     await writeFile(jsonPath, JSON.stringify(jsonData))
     res.sendStatus(200)
 })
@@ -69,8 +68,11 @@ const wss = new ws.Server({
 })
 
 wss.on("connection", ws => {
-    const message = () => JSON.stringify(talk(title))
-    
+    const message = () => {
+        const talkCopy = talk(title)
+
+        return JSON.stringify(talkCopy)
+    }
     
     ws.send(message())
 

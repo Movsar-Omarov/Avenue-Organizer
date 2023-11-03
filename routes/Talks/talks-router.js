@@ -34,13 +34,16 @@ router.post("/themes", async (req, res) => {
   const theme = new Theme(title, name, summary)
   
   // check if title sent by client exists
+
+  const titlesCopy = await titles()
   
-  if (!Object.values(await titles()).includes(title)) {
-    const jsonData = (await talks()),
-    themes = jsonData["talks"]
+  if (!Object.values(titlesCopy).includes(title)) {
+    const jsonData = await json(),
+    talks = jsonData["talks"]
+
     // update json file
     
-    themes.push(theme)
+    talks.push(theme)
 
     await writeFile(jsonPath, JSON.stringify(jsonData))
 
@@ -65,10 +68,12 @@ wss.on("connection", ws => {
 // Functions 
 
 async function sendJSON(ws) {
-  ws.send(JSON.stringify(await titles()))
+const titlesCopy = await titles()
+
+  ws.send(JSON.stringify(titlesCopy))
 }
 
-const talks = async () => {
+const json = async () => {
   const data = await readFile(jsonPath, {
     encoding: "utf-8"
   })
@@ -82,14 +87,14 @@ const titles = async () => {
   const titles = {
     length: 0
   }
-  let themes = await talks()
+  let talks = await json()
   
-  themes = themes["talks"]
+  talks = talks["talks"]
 
   // paste all of the titles into this object
   
-  for (let i = 0; i < themes.length; i++) {
-    titles[i] = themes[i].title
+  for (let i = 0; i < talks.length; i++) {
+    titles[i] = talks[i].title
     titles.length++
   }
   

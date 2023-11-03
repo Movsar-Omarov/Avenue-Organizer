@@ -32,6 +32,8 @@ setInterval(() => socket.send("need comments!"), 100)
 form.addEventListener("submit", async e => {
     e.preventDefault()
 
+    if (!commentInput.value) return
+
     fetch(window.location + "/comments", 
     {
         method: "POST",
