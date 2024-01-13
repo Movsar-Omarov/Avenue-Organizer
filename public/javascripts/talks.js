@@ -42,8 +42,7 @@ form.addEventListener("submit", async e => {
 // Functions
 
 function formatTitles(data) {
-    // delete all of li elements
-
+    
     ul.innerHTML = ""
     
     titles = JSON.parse(data)
